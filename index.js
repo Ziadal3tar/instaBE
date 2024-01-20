@@ -21,7 +21,7 @@ app.use(express.json())
 app.use('/auth', indexRouter.authRouter)
 app.use('/user', indexRouter.userRouter)
 app.use('*', (req, res, next) => {
-    res.send("In-valid Route pls check url or method")
+    res.send("Invalid Route pls check url or method")
 })
 app.use(globalError)
 connection()
