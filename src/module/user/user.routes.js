@@ -11,6 +11,9 @@ router.get("/", (req, res) => {
 })
 
 router.post("/getUserData",auth(), userControl.getUserData)
+router.post("/getProfilesData", userControl.getProfilesData)
+router.post("/searchUser",auth(), userControl.searchUser)
 router.post("/changeUserImage",auth(),myMulter(fileValidation.image).single("image"), HME, userControl.changeUserImage)
-
+router.get("/visited/:_id",auth(), userControl.visited)
+router.get("/follow/:_id",auth(), userControl.follow)
 export default router

@@ -20,8 +20,10 @@ const baseUrl = process.env.baseUrl
 app.use(express.json())
 app.use('/auth', indexRouter.authRouter)
 app.use('/user', indexRouter.userRouter)
+app.use('/posts', indexRouter.postRouter)
+app.use('/reels', indexRouter.reelRouter)
 app.use('*', (req, res, next) => {
-    res.send("Invalid Route pls check url or method")
+    res.send("In-valid Route pls check url or method")
 })
 app.use(globalError)
 connection()

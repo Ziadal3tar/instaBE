@@ -12,5 +12,8 @@ router.get("/", (req, res) => {
 
 router.post("/signUp", registerControl.signUp)
 router.post("/logIn", registerControl.logIn)
+router.post("/loginWithGoogle", registerControl.loginWithGoogle)
+router.post("/loginWithFB", registerControl.loginWithFB)
+router.post("/logInWithFbOrGoogle", registerControl.logInWithFbOrGoogle)
 
 export default router

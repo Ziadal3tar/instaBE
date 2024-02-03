@@ -1,6 +1,33 @@
 import jwt from "jsonwebtoken"
 import userModel from "../../DB/model/user.model.js"
 import { asyncHandler } from "../services/asyncHandler.js"
+import { populate } from "dotenv"
+const userPop = [
+
+  {
+    path: "posts",
+    populate: [
+      {
+        path: "createdBy",
+      },
+      {
+        path: "comments",
+        populate: [
+          {
+            path: "userId",
+          },
+          
+         
+        ]
+      },
+     
+    ]
+
+  },
+  {
+    path: "visited",
+  }
+];
 export const roles = {
   User: "User",
   Admin: "Admin"
@@ -17,7 +44,10 @@ export const auth = () => {
         res.status(400).json({ message: "In-valid token payload" })
 
       } else {
-        const user = await userModel.findById({ _id: decoded.id })
+        const user = await userModel
+  .findById(decoded.id)
+  .populate([...userPop])
+  .exec();
         if (!user) {
           res.status(404).json({ message: "Not register user" })
 

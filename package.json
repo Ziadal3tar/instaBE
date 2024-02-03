@@ -8,7 +8,7 @@
     "node": "18.x"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "dev": "nodemon index.js"
   },
   "author": "",
@@ -29,6 +29,6 @@
     "slugify": "^1.6.6"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.3"
   }
 }

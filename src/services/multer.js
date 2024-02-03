@@ -1,7 +1,9 @@
 import multer from "multer";
 
 export const fileValidation = {
-    image: ['image/png', 'image/jpeg', 'image/jif','image/webp'],
+    all: ['image/png', 'image/jpeg', 'image/jif','image/webp','video/mp4','application/pdf'],
+    image: ['image/png', 'image/jpeg', 'image/jif','image/webp',],
+    video: ['video/mp4'],
     pdf: ['application/pdf'],
 }
 export const HME = (err, req, res, next) => {
