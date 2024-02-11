@@ -36,25 +36,24 @@ import * as socket from'./common/socket.js'
 
 
 
-import { Socket } from 'socket.io'
 import userModel from './DB/model/user.model.js'
 
-const io = socket.init(server)
+// const io = socket.init(server)
 
-//first event
-io.on("connection",(socket)=>{
-  socket.on('updateSocketId', async(_id)=>{
-    if (_id) {
-      const updatedUser = await userModel.findByIdAndUpdate({_id},{socketID:socket.id},{new:true})
+// //first event
+// io.on("connection",(socket)=>{
+//   socket.on('updateSocketId', async(_id)=>{
+//     if (_id) {
+//       const updatedUser = await userModel.findByIdAndUpdate({_id},{socketID:socket.id},{new:true})
 
-      }
-  })
-  socket.on('sendMessage', async(id)=>{
+//       }
+//   })
+//   socket.on('sendMessage', async(id)=>{
 
-    let user = await userModel.findById({_id:id})
-console.log('tosemd',user.socketID);
-socket.to(user.socketID).emit('receiveMessage', 'New Message')
+//     let user = await userModel.findById({_id:id})
+// console.log('tosemd',user.socketID);
+// socket.to(user.socketID).emit('receiveMessage', 'New Message')
 
-  })
+//   })
 
-})
+// })
