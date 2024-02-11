@@ -3,29 +3,50 @@ import userModel from "../../DB/model/user.model.js"
 import { asyncHandler } from "../services/asyncHandler.js"
 import { populate } from "dotenv"
 const userPop = [
-
   {
-    path: "posts",
-    populate: [
-      {
-        path: "createdBy",
-      },
-      {
-        path: "comments",
-        populate: [
-          {
-            path: "userId",
-          },
-          
-         
-        ]
-      },
-     
-    ]
+      path: "posts",
 
+      populate: [
+          {
+              path: "createdBy",
+          },
+          {
+              path: "comments",
+              populate: [
+                  {
+                      path: "userId",
+                  },
+              ]
+          },
+      ]
   },
   {
-    path: "visited",
+      path: "visited",
+  },
+  {
+    path: "chats",
+},
+  {
+    path: "stories",
+},
+  {
+      path: "saved",
+  },
+  {
+      path: "following",
+      populate: [
+        {
+            path: "stories",
+        },]
+  },
+  {
+    path: "chats",
+    populate: [
+      {
+          path: "userIds",
+      },
+     
+  ]
   }
 ];
 export const roles = {
@@ -48,6 +69,8 @@ export const auth = () => {
   .findById(decoded.id)
   .populate([...userPop])
   .exec();
+  // await user.populate('collections.saved.savedId').execPopulate();
+
         if (!user) {
           res.status(404).json({ message: "Not register user" })
 

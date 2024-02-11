@@ -5,21 +5,22 @@ import postModel from '../../../../DB/model/post.model.js';
 import userModel from '../../../../DB/model/user.model.js';
 import reelModel from '../../../../DB/model/reel.model.js';
 const postPop = [
-{          path: "createdBy",
-},
     {
-          path: "comments",
-          populate: [
+        path: "createdBy",
+    },
+    {
+        path: "comments",
+        populate: [
             {
-              path: "userId",
+                path: "userId",
             },
-            
-           
-          ]
-      
-        }
-    
-  ];
+
+
+        ]
+
+    }
+
+];
 export const addPost = asyncHandler(async (req, res, next) => {
     const paths = req.files;
     if (!paths || paths.length === 0) {
@@ -89,32 +90,47 @@ export const addPost = asyncHandler(async (req, res, next) => {
 export const like = asyncHandler(async (req, res, next) => {
     let { _id, type } = req.body
     let userId = req.user._id
-    if (type == 'post') {
 
-        let post = await findById({ model: postModel, condition: _id })
+
+
+
+    const like = async (model) => {
+
+        let post = await findById({ model, condition: _id })
         let ifLike = post.likes.includes(userId)
         if (!ifLike) {
             let addLikeForPost = await findByIdAndUpdate({
-                model: postModel, condition: _id, data: {
+                model, condition: _id, data: {
                     $addToSet: { likes: userId },
                 },
                 options: { new: true },
 
             })
             if (addLikeForPost) {
-                res.status(200).json({ success: true, message: 'added' });
+        let newItem = await findById({model,condition:_id,populate:[...postPop]})
+
+                res.status(200).json({ success: true, message: 'added' ,newItem});
             }
         } else {
             let removeLikeForPost = await findByIdAndUpdate({
-                model: postModel, condition: _id, data: {
+                model, condition: _id, data: {
                     $pull: { likes: userId },
                 },
                 options: { new: true },
             })
             if (removeLikeForPost) {
-                res.status(200).json({ success: true, message: 'removed' });
+        let newItem = await findById({model,condition:_id,populate:[...postPop]})
+
+                res.status(200).json({ success: true, message: 'removed',newItem });
             }
         }
+    }
+
+
+    if (type == 'post') {
+        like(postModel)
+    } else if (type == 'reel') {
+        like(reelModel)
     }
 });
 
@@ -125,43 +141,43 @@ export const addComment = asyncHandler(async (req, res, next) => {
 
 
 
-    const addComment = async(model)=>{
+    const addComment = async (model) => {
         let newComment = {
             comment, userId
         }
-       
 
-            let update = await findByIdAndUpdate({
-                model: model, condition: _id, data: { $push: { comments: newComment } },
-                options: { new: true },
-            })
-let post = await findById({model,condition:_id,populate:[...postPop]})
-            if (update) {
-                res.status(200).json({
-                    success: true,
-                    message: 'Comment added successfully',
-                    post
-                });
-            } else {
-                res.status(404).json({
-                    success: false,
-                    message: 'Post not found',
-                });
-            
+
+        let update = await findByIdAndUpdate({
+            model: model, condition: _id, data: { $push: { comments: newComment } },
+            options: { new: true },
+        })
+        let post = await findById({ model, condition: _id, populate: [...postPop] })
+        if (update) {
+            res.status(200).json({
+                success: true,
+                message: 'Comment added successfully',
+                post
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                message: 'Post not found',
+            });
+
         }
     }
     if (type == 'post') {
 
-addComment(postModel)
+        addComment(postModel)
 
-    }else if(type == 'reel'){
+    } else if (type == 'reel') {
         addComment(reelModel)
 
     }
 });
 export const getPostById = asyncHandler(async (req, res, next) => {
     const { _id } = req.body
-    let post = await findById({ model: postModel, condition: _id, populate:[...postPop]})
+    let post = await findById({ model: postModel, condition: _id, populate: [...postPop] })
     if (post) {
         res.status(200).json({
             post
@@ -171,6 +187,6 @@ export const getPostById = asyncHandler(async (req, res, next) => {
             success: false,
             message: 'Post not found',
         });
-    
-}
+
+    }
 });

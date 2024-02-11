@@ -1,6 +1,40 @@
 import { Schema, model, Types } from "mongoose";
 import bcrypt from 'bcrypt'
+// let savedSchema = new Schema({
+//   savedId: {
+//     type: Types.ObjectId,
+//     ref: "Post",
 
+//   },
+//   ref: {
+//     type: String,
+//     required: true,
+//     enum: ['Reel', 'Post']
+// },
+
+// })
+// let collections = new Schema({
+//   collectionName: {
+//     type: String,
+//     required: [true, 'CollectionName is required'],
+//     min: [2, 'minimum length 2 char'],
+//     max: [20, 'max length 20 char']
+//   },
+//   saved: [{
+//     savedId: {
+//       type: Types.ObjectId,
+//       ref: "Post",
+  
+//     },
+//     ref: {
+//       type: String,
+//       required: true,
+//       enum: ['Reel', 'Post']
+//   },
+  
+//   }]
+
+// })
 const userSchema = new Schema({
   userName: {
     type: String,
@@ -97,6 +131,40 @@ const userSchema = new Schema({
       ref: "Reel",
     },
   ],
+  chats: [
+    {
+      type: Types.ObjectId,
+      ref: "Chat",
+    },
+  ],
+  saved: [
+    {
+      type: Types.ObjectId,
+      ref: "Post",
+    },
+  ],
+  collections:[{
+      collectionName: {
+        type: String,
+        required: [true, 'CollectionName is required'],
+        min: [2, 'minimum length 2 char'],
+        max: [20, 'max length 20 char']
+      },
+      saved: [{
+        savedId: {
+          type: Types.ObjectId,
+          refPath: 'referencedObjectType',
+      
+        },
+        referencedObjectType: {
+          type: String,
+          required: true,
+          enum: ['Reel', 'Post']
+      },
+      
+      }]
+    
+    }],
 
 
   socketID: String,

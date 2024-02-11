@@ -22,6 +22,8 @@ app.use('/auth', indexRouter.authRouter)
 app.use('/user', indexRouter.userRouter)
 app.use('/posts', indexRouter.postRouter)
 app.use('/reels', indexRouter.reelRouter)
+app.use('/stories', indexRouter.storyRouter)
+app.use('/chats', indexRouter.chatsRouter)
 app.use('*', (req, res, next) => {
     res.send("In-valid Route pls check url or method")
 })
@@ -30,3 +32,29 @@ connection()
 const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 app.use(express.json())
 app.get('/', (req, res) => res.send('Hello World!'))
+import * as socket from'./common/socket.js'
+
+
+
+import { Socket } from 'socket.io'
+import userModel from './DB/model/user.model.js'
+
+const io = socket.init(server)
+
+//first event
+io.on("connection",(socket)=>{
+  socket.on('updateSocketId', async(_id)=>{
+    if (_id) {
+      const updatedUser = await userModel.findByIdAndUpdate({_id},{socketID:socket.id},{new:true})
+
+      }
+  })
+  socket.on('sendMessage', async(id)=>{
+
+    let user = await userModel.findById({_id:id})
+console.log('tosemd',user.socketID);
+socket.to(user.socketID).emit('receiveMessage', 'New Message')
+
+  })
+
+})

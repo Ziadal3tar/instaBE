@@ -8,23 +8,30 @@ import cloudinary from '../../../services/cloudinary.js'
 import { populate } from 'dotenv';
 const userPop = [
   {
-    path: "posts",
-    populate: [
-      {
-        path: "createdBy",
-      },
-      {
-        path: "comments",
-        populate: [
+      path: "posts",
+      populate: [
           {
-            path: "userId",
+              path: "createdBy",
           },
-        ]
-      },
-    ]
+          {
+              path: "comments",
+              populate: [
+                  {
+                      path: "userId",
+                  },
+              ]
+          },
+      ]
   },
   {
-    path: "visited",
+      path: "visited",
+  },
+  {
+    path: "chats",
+
+  },
+  {
+      path: "saved",
   }
 ];
 export const getUserData = asyncHandler(async (req, res, next) => {
