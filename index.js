@@ -10,11 +10,9 @@ const app = express()
 import connection from './DB/connection.js'
 import { globalError } from './src/services/asyncHandler.js'
 import cors  from "cors"
-var corsOption = {
-    origin: "*",
-    // optionsSuccessStatus: 200
-}
-app.use(cors(corsOption))
+app.use(cors({
+  origin: 'https://www.al3tar.me'
+}));
 
 const port = process.env.PORT || 3000;
 
