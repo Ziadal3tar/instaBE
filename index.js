@@ -12,10 +12,12 @@ import { globalError } from './src/services/asyncHandler.js'
 import cors  from "cors"
 var corsOption = {
     origin: "*",
-    optionsSuccessStatus: 200
+    // optionsSuccessStatus: 200
 }
-app.use(cors("*"))
-const port = 3000
+app.use(cors(corsOption))
+
+const port = process.env.PORT || 3000;
+
 const baseUrl = process.env.baseUrl
 app.use(express.json())
 app.use('/auth', indexRouter.authRouter)
