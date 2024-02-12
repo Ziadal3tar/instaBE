@@ -10,10 +10,11 @@ const app = express()
 import connection from './DB/connection.js'
 import { globalError } from './src/services/asyncHandler.js'
 import cors  from "cors"
-app.use(cors({
-  origin: 'https://www.al3tar.me'
-}));
-
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://www.al3tar.me");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 const port = process.env.PORT || 3000;
 
 const baseUrl = process.env.baseUrl
