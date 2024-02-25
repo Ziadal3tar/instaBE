@@ -107,9 +107,9 @@ export const like = asyncHandler(async (req, res, next) => {
 
             })
             if (addLikeForPost) {
-        let newItem = await findById({model,condition:_id,populate:[...postPop]})
+                let newItem = await findById({ model, condition: _id, populate: [...postPop] })
 
-                res.status(200).json({ success: true, message: 'added' ,newItem});
+                res.status(200).json({ success: true, message: 'added', newItem });
             }
         } else {
             let removeLikeForPost = await findByIdAndUpdate({
@@ -119,9 +119,9 @@ export const like = asyncHandler(async (req, res, next) => {
                 options: { new: true },
             })
             if (removeLikeForPost) {
-        let newItem = await findById({model,condition:_id,populate:[...postPop]})
+                let newItem = await findById({ model, condition: _id, populate: [...postPop] })
 
-                res.status(200).json({ success: true, message: 'removed',newItem });
+                res.status(200).json({ success: true, message: 'removed', newItem });
             }
         }
     }
@@ -183,10 +183,18 @@ export const getPostById = asyncHandler(async (req, res, next) => {
             post
         });
     } else {
-        res.status(404).json({
-            success: false,
-            message: 'Post not found',
-        });
+        let post = await findById({ model: reelModel, condition: _id, populate: [...postPop] })
+        if (post) {
+            res.status(200).json({
+                post
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                message: 'Post not found',
+            });
+        }
+
 
     }
 });

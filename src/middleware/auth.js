@@ -24,29 +24,36 @@ const userPop = [
       path: "visited",
   },
   {
-    path: "chats",
-},
+      path: "chats",
+  },
   {
-    path: "stories",
-},
+      path: "stories",
+  },
   {
-      path: "saved",
+      path: "savedPosts",
+  },
+  {
+      path: "savedReels",
   },
   {
       path: "following",
       populate: [
-        {
-            path: "stories",
-        },]
+          {
+              path: "stories",
+          },]
   },
   {
-    path: "chats",
-    populate: [
-      {
-          path: "userIds",
-      },
-     
-  ]
+      path: "chats",
+      populate: [
+          {
+              path: "userIds",
+          },
+
+      ]
+  }
+
+  , {
+      path: "notifications.data",
   }
 ];
 export const roles = {

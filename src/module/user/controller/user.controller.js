@@ -9,6 +9,7 @@ import { populate } from 'dotenv';
 const userPop = [
   {
       path: "posts",
+
       populate: [
           {
               path: "createdBy",
@@ -27,11 +28,36 @@ const userPop = [
       path: "visited",
   },
   {
-    path: "chats",
-
+      path: "chats",
   },
   {
-      path: "saved",
+      path: "stories",
+  },
+  {
+      path: "savedPosts",
+  },
+  {
+      path: "savedReels",
+  },
+  {
+      path: "following",
+      populate: [
+          {
+              path: "stories",
+          },]
+  },
+  {
+      path: "chats",
+      populate: [
+          {
+              path: "userIds",
+          },
+
+      ]
+  }
+
+  , {
+      path: "notifications.data",
   }
 ];
 export const getUserData = asyncHandler(async (req, res, next) => {
@@ -133,7 +159,7 @@ export const follow = asyncHandler(async (req, res, next) => {
 
 
 
-  if (req.user.following.includes(_id)) {
+  if (user.followers.includes(req.user._id)) {
     let unFollow = await findByIdAndUpdate({
       model: userModel, condition: req.user._id, data: {
         $pull: { following: _id },

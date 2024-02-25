@@ -1,40 +1,6 @@
 import { Schema, model, Types } from "mongoose";
 import bcrypt from 'bcrypt'
-// let savedSchema = new Schema({
-//   savedId: {
-//     type: Types.ObjectId,
-//     ref: "Post",
 
-//   },
-//   ref: {
-//     type: String,
-//     required: true,
-//     enum: ['Reel', 'Post']
-// },
-
-// })
-// let collections = new Schema({
-//   collectionName: {
-//     type: String,
-//     required: [true, 'CollectionName is required'],
-//     min: [2, 'minimum length 2 char'],
-//     max: [20, 'max length 20 char']
-//   },
-//   saved: [{
-//     savedId: {
-//       type: Types.ObjectId,
-//       ref: "Post",
-  
-//     },
-//     ref: {
-//       type: String,
-//       required: true,
-//       enum: ['Reel', 'Post']
-//   },
-  
-//   }]
-
-// })
 const userSchema = new Schema({
   userName: {
     type: String,
@@ -59,7 +25,9 @@ const userSchema = new Schema({
   phone: {
     type: String,
   },
-
+  bio: {
+    type: String,
+  },
   active: {
     type: Boolean,
     default: 'false',
@@ -137,34 +105,43 @@ const userSchema = new Schema({
       ref: "Chat",
     },
   ],
-  saved: [
+  savedPosts: [
+
     {
       type: Types.ObjectId,
-      ref: "Post",
-    },
+      ref: 'Post',
+    }
+
   ],
-  collections:[{
-      collectionName: {
-        type: String,
-        required: [true, 'CollectionName is required'],
-        min: [2, 'minimum length 2 char'],
-        max: [20, 'max length 20 char']
-      },
-      saved: [{
-        savedId: {
-          type: Types.ObjectId,
-          refPath: 'referencedObjectType',
-      
-        },
-        referencedObjectType: {
-          type: String,
-          required: true,
-          enum: ['Reel', 'Post']
-      },
-      
-      }]
-    
-    }],
+  savedReels: [
+
+    {
+      type: Types.ObjectId,
+      ref: 'Reel',
+    }
+
+  ],
+
+
+  collections: [{
+    collectionName: {
+      type: String,
+      required: [true, 'CollectionName is required'],
+      min: [2, 'minimum length 2 char'],
+      max: [20, 'max length 20 char']
+    },
+
+  }],
+  notifications: [{
+    text: { type: String },
+    seen: { type: Boolean, default: false },
+    type: { type: String },
+    data: {
+      type: Types.ObjectId,
+      ref: 'User',
+    },
+    redirect: { type: String },
+  }],
 
 
   socketID: String,
