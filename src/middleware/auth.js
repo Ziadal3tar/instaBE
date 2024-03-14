@@ -3,9 +3,27 @@ import userModel from "../../DB/model/user.model.js"
 import { asyncHandler } from "../services/asyncHandler.js"
 import { populate } from "dotenv"
 const userPop = [
-  {
-      path: "posts",
-
+    {
+        path: "posts",
+     
+  
+        populate: [
+            {
+                path: "createdBy",
+            },
+            {
+                path: "comments",
+                populate: [
+                    {
+                        path: "userId",
+                    },
+                ]
+            },
+        ]
+    },
+    {
+      path: "reels",
+  
       populate: [
           {
               path: "createdBy",
@@ -19,43 +37,69 @@ const userPop = [
               ]
           },
       ]
-  },
-  {
-      path: "visited",
-  },
-  {
-      path: "chats",
-  },
-  {
-      path: "stories",
-  },
-  {
-      path: "savedPosts",
-  },
-  {
-      path: "savedReels",
-  },
-  {
-      path: "following",
-      populate: [
+  }, 
+    {
+        path: "visited",
+    },
+    {
+        path: "chats",
+    },
+    {
+        path: "stories",
+    },
+    {
+        path: "savedPosts",
+         populate: [
           {
-              path: "stories",
-          },]
-  },
-  {
-      path: "chats",
-      populate: [
-          {
-              path: "userIds",
+              path: "createdBy",
           },
-
+          {
+              path: "comments",
+              populate: [
+                  {
+                      path: "userId",
+                  },
+              ]
+          },
       ]
-  }
-
-  , {
-      path: "notifications.data",
-  }
-];
+    },
+    {
+        path: "savedReels",
+         populate: [
+          {
+              path: "createdBy",
+          },
+          {
+              path: "comments",
+              populate: [
+                  {
+                      path: "userId",
+                  },
+              ]
+          },
+      ]
+    },
+    {
+        path: "following",
+        populate: [
+            {
+                path: "stories",
+            },]
+    },
+    {
+        path: "chats",
+        populate: [
+            {
+                path: "userIds",
+            },
+  
+        ]
+    }
+  
+    , {
+        path: "notifications.data",
+    }
+  ];
 export const roles = {
   User: "User",
   Admin: "Admin"

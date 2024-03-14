@@ -12,7 +12,8 @@ import reelModel from '../../../../DB/model/reel.model.js';
 const userPop = [
     {
         path: "posts",
-
+     
+  
         populate: [
             {
                 path: "createdBy",
@@ -28,6 +29,23 @@ const userPop = [
         ]
     },
     {
+      path: "reels",
+  
+      populate: [
+          {
+              path: "createdBy",
+          },
+          {
+              path: "comments",
+              populate: [
+                  {
+                      path: "userId",
+                  },
+              ]
+          },
+      ]
+  }, 
+    {
         path: "visited",
     },
     {
@@ -38,9 +56,35 @@ const userPop = [
     },
     {
         path: "savedPosts",
+         populate: [
+          {
+              path: "createdBy",
+          },
+          {
+              path: "comments",
+              populate: [
+                  {
+                      path: "userId",
+                  },
+              ]
+          },
+      ]
     },
     {
         path: "savedReels",
+         populate: [
+          {
+              path: "createdBy",
+          },
+          {
+              path: "comments",
+              populate: [
+                  {
+                      path: "userId",
+                  },
+              ]
+          },
+      ]
     },
     {
         path: "following",
@@ -55,14 +99,14 @@ const userPop = [
             {
                 path: "userIds",
             },
-
+  
         ]
     }
-
+  
     , {
         path: "notifications.data",
     }
-];
+  ];
 export const newCollection = asyncHandler(async (req, res, next) => {
 
     let { collectionName } = req.body
@@ -287,16 +331,23 @@ export const bio = asyncHandler(async (req, res, next) => {
         success: true
     });
 });
-export const getSaved = asyncHandler(async (req, res, next) => {
+export const getSavedAndPosts = asyncHandler(async (req, res, next) => {
     let user = req.user;
 const savedPosts = user.savedPosts
 const savedReels = user.savedReels
-const combinedPosts = [...savedPosts, ...savedReels];
-const saved = [...combinedPosts];
+const combinedSaved = [...savedPosts, ...savedReels];
+const saved = [...combinedSaved];
 
 
-saved.sort((a, b) => b.createdAt - a.createdAt);
+
+const posts = user.posts
+const reels = user.reels
+const combinedPosts = [...posts, ...reels];
+
+const allPosts = [...combinedPosts];
+
+allPosts.sort((a, b) => b.createdAt - a.createdAt);
 res.status(200).json({
-    saved
+    saved,allPosts
 });
 });

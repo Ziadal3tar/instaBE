@@ -9,6 +9,7 @@ import { populate } from 'dotenv';
 const userPop = [
   {
       path: "posts",
+   
 
       populate: [
           {
@@ -25,6 +26,23 @@ const userPop = [
       ]
   },
   {
+    path: "reels",
+
+    populate: [
+        {
+            path: "createdBy",
+        },
+        {
+            path: "comments",
+            populate: [
+                {
+                    path: "userId",
+                },
+            ]
+        },
+    ]
+}, 
+  {
       path: "visited",
   },
   {
@@ -35,9 +53,35 @@ const userPop = [
   },
   {
       path: "savedPosts",
+       populate: [
+        {
+            path: "createdBy",
+        },
+        {
+            path: "comments",
+            populate: [
+                {
+                    path: "userId",
+                },
+            ]
+        },
+    ]
   },
   {
       path: "savedReels",
+       populate: [
+        {
+            path: "createdBy",
+        },
+        {
+            path: "comments",
+            populate: [
+                {
+                    path: "userId",
+                },
+            ]
+        },
+    ]
   },
   {
       path: "following",

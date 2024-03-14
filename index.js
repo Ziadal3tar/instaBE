@@ -10,10 +10,8 @@ const app = express()
 import connection from './DB/connection.js'
 import { globalError } from './src/services/asyncHandler.js'
 import cors from "cors"
-var corsOption = {
-  origin: "*",
-  optionsSuccessStatus: 200
-}
+app.use(cors());
+
 app.use(cors(corsOption))
 const port = process.env.PORT || 3000
 const baseUrl = process.env.baseUrl
@@ -109,13 +107,8 @@ io.on("connection", (socket) => {
       }
     ];
     let user = await userModel.findById({ _id: data.data })
-// console.log(user); 
     let text
-    // if (data.eventName == 'message') {
-    //     text = `${notification.notification[data.eventName]} ${user.userName}`
-    //   }else if (data.eventName == 'suggest') {
-    //     text = `${user.userName} ${notification.notification[data.eventName]}`
-    //   
+
 
     if (data.eventName == 'follow' || data.eventName == 'comment' || data.eventName == 'like' || data.eventName == 'message') {
       if (data.eventName == 'message') {

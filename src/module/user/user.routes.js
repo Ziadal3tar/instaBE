@@ -22,6 +22,6 @@ router.post("/savePost",auth(), userControl1.savePost)
 router.post("/addToCollection",auth(), userControl1.addToCollection)
 router.get("/getPosts",auth(), userControl1.getPostsBasedOnSocialNetwork)
 router.get("/allNotificationSeen",auth(), userControl1.allNotificationSeen)
-router.get("/getSaved",auth(), userControl1.getSaved)
+router.get("/getSaved",auth(), userControl1.getSavedAndPosts)
 router.post("/bio",auth(), userControl1.bio)
 export default router
