@@ -1,5 +1,3 @@
-import { createServer } from 'http';
-import { Server } from 'socket.io';
 import path from 'path'
 import { fileURLToPath } from 'url'
 import dotenv from 'dotenv'
@@ -9,12 +7,6 @@ import express from 'express'
 import * as indexRouter from './src/module/index.router.js'
 
 const app = express()
-const httpServer = createServer(app);
-const socketIo  = new Server(httpServer, {
-  cors: {
-    origin: '*',
-  },
-});
 import connection from './DB/connection.js'
 import { globalError } from './src/services/asyncHandler.js'
 import cors from "cors"
@@ -50,6 +42,7 @@ const io = socket.init(server)
 io.on("connection", (socket) => {
 
   socket.on('updateSocketId', async (_id) => {
+    console.log(_id);
     if (_id) {
       const updatedUser = await userModel.findByIdAndUpdate({ _id }, { socketID: socket.id }, { new: true })
     }
