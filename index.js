@@ -1,3 +1,5 @@
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 import path from 'path'
 import { fileURLToPath } from 'url'
 import dotenv from 'dotenv'
@@ -7,11 +9,16 @@ import express from 'express'
 import * as indexRouter from './src/module/index.router.js'
 
 const app = express()
+const httpServer = createServer(app);
+const socketIo  = new Server(httpServer, {
+  cors: {
+    origin: '*',
+  },
+});
 import connection from './DB/connection.js'
 import { globalError } from './src/services/asyncHandler.js'
 import cors from "cors"
 app.use(cors({ origin: '*' }))  
-
 const port = process.env.PORT || 3000
 const baseUrl = process.env.baseUrl
 app.use(express.json())
