@@ -152,7 +152,7 @@ const userSchema = new Schema({
 userSchema.pre("save", function (next) {
   if (this.registerType == 'default') {
 
-    this.password = bcrypt.hashSync(this.password, parseInt(process.env.ROUNDS))
+    this.password = bcrypt.hashSync(this.password, parseInt(process.env.SALTROUND))
   }
   next()
 })
