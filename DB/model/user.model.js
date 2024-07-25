@@ -149,13 +149,15 @@ const userSchema = new Schema({
 }, {
   timestamps: true
 })
-userSchema.pre("save", function (next) {
-  if (this.registerType == 'default') {
 
-    this.password = bcrypt.hashSync(this.password, parseInt(process.env.SALTROUND))
-  }
-  next()
-})
+
+userSchema.pre("save", function (next) { 
+  if (this.password) { 
+ 
+    this.password = bcrypt.hashSync(this.password, parseInt(process.env.ROUNDS)) 
+  } 
+  next() 
+}) 
 
 const userModel = model('User', userSchema);
 export default userModel
